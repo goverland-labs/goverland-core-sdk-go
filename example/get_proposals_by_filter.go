@@ -8,7 +8,7 @@ import (
 )
 
 func getProposalListByFilter() {
-	cli := goverlandcorewebsdk.NewClient(defaultBaseURL, defaultSubscriberID, "")
+	cli := goverlandcorewebsdk.NewClient(defaultBaseURL)
 	resp, err := cli.GetProposalList(context.TODO(), goverlandcorewebsdk.GetProposalListRequest{
 		Limit:  2,
 		Offset: 3,

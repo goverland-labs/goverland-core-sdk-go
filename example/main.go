@@ -6,5 +6,6 @@ const (
 )
 
 func main() {
-	unsubscribeFromDao()
+	//createSubscriber()
+	updateSubscriber()
 }

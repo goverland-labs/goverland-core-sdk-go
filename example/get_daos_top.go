@@ -8,7 +8,7 @@ import (
 )
 
 func getDaoTop() {
-	cli := goverlandcorewebsdk.NewClient(defaultBaseURL, defaultSubscriberID, "")
+	cli := goverlandcorewebsdk.NewClient(defaultBaseURL)
 	resp, err := cli.GetDaoTop(context.TODO(), goverlandcorewebsdk.GetDaoTopRequest{
 		Limit: 1,
 	})

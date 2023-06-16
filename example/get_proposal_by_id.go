@@ -8,7 +8,7 @@ import (
 )
 
 func getProposalByID() {
-	cli := goverlandcorewebsdk.NewClient(defaultBaseURL, defaultSubscriberID, "")
+	cli := goverlandcorewebsdk.NewClient(defaultBaseURL)
 	pr, err := cli.GetProposal(context.TODO(), "ed47b0bc-ecd9-4cd1-89c7-8bdcecb7a9d7")
 	if err != nil {
 		panic(err)

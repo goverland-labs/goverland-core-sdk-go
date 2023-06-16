@@ -8,7 +8,7 @@ import (
 )
 
 func getDaoListByFilter() {
-	cli := goverlandcorewebsdk.NewClient(defaultBaseURL, defaultSubscriberID, "")
+	cli := goverlandcorewebsdk.NewClient(defaultBaseURL)
 	resp, err := cli.GetDaoList(context.TODO(), goverlandcorewebsdk.GetDaoListRequest{
 		Limit: 2,
 	})
