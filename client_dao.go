@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/goverland-labs/core-web-sdk/dao"
 )
@@ -28,6 +29,7 @@ type GetDaoListRequest struct {
 	Limit    int
 	Query    string
 	Category string
+	DaoIDS   []string
 }
 
 func (c *Client) GetDaoList(ctx context.Context, params GetDaoListRequest) (*dao.List, error) {
@@ -48,6 +50,9 @@ func (c *Client) GetDaoList(ctx context.Context, params GetDaoListRequest) (*dao
 	}
 	if params.Category != "" {
 		q.Add("category", params.Category)
+	}
+	if len(params.DaoIDS) != 0 {
+		q.Add("daos", strings.Join(params.DaoIDS, ","))
 	}
 	req.URL.RawQuery = q.Encode()
 
