@@ -93,3 +93,37 @@ func (c *Client) GetDaoTop(ctx context.Context, params GetDaoTopRequest) (*dao.T
 
 	return &result, nil
 }
+
+type GetDaoFeedRequest struct {
+	Offset int
+	Limit  int
+}
+
+func (c *Client) GetDaoFeed(ctx context.Context, id string, params GetDaoFeedRequest) (*dao.Feed, error) {
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s/feed", c.baseURL, id), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	q := req.URL.Query()
+	if params.Offset != 0 {
+		q.Add("offset", strconv.Itoa(params.Offset))
+	}
+	if params.Limit != 0 {
+		q.Add("limit", strconv.Itoa(params.Limit))
+	}
+	req.URL.RawQuery = q.Encode()
+
+	var result []dao.FeedItem
+	headers, err := c.sendRequest(ctx, req, &result)
+	if err != nil {
+		return nil, err
+	}
+
+	return &dao.Feed{
+		Items:    result,
+		Offset:   GetOffsetFromHeaders(headers),
+		Limit:    GetLimitFromHeaders(headers),
+		TotalCnt: GetTotalCntFromHeaders(headers),
+	}, nil
+}
