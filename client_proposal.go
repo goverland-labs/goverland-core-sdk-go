@@ -28,6 +28,7 @@ type GetProposalListRequest struct {
 	Limit    int
 	Dao      string
 	Category string
+	Title    string
 }
 
 func (c *Client) GetProposalList(ctx context.Context, params GetProposalListRequest) (*proposal.List, error) {
@@ -48,6 +49,9 @@ func (c *Client) GetProposalList(ctx context.Context, params GetProposalListRequ
 	}
 	if params.Category != "" {
 		q.Add("category", params.Category)
+	}
+	if params.Title != "" {
+		q.Add("title", params.Title)
 	}
 	req.URL.RawQuery = q.Encode()
 
