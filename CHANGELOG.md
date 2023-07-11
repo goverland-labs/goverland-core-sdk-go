@@ -7,6 +7,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Fixed
+- Fixed missed fields in DAO and Strategy
+
 ## [0.0.4] - 2023-07-07
 
 ### Added
