@@ -7,6 +7,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- Added golangci-lint config
+
 ## [0.0.6] - 2023-07-11
 
 ### Added
