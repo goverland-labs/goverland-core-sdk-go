@@ -10,6 +10,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - Added golangci-lint config
 
+### Changed
+- Updated structure of the requests and responses
+- Used uuid instead of strings if it's required
+
 ## [0.0.6] - 2023-07-11
 
 ### Added

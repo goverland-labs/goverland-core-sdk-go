@@ -7,11 +7,13 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/google/uuid"
+
 	"github.com/goverland-labs/core-web-sdk/dao"
 )
 
-func (c *Client) GetDao(ctx context.Context, id string) (*dao.Dao, error) {
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s", c.baseURL, id), nil)
+func (c *Client) GetDao(ctx context.Context, id uuid.UUID) (*dao.Dao, error) {
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s", c.baseURL, id.String()), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -99,8 +101,8 @@ type GetDaoFeedRequest struct {
 	Limit  int
 }
 
-func (c *Client) GetDaoFeed(ctx context.Context, id string, params GetDaoFeedRequest) (*dao.Feed, error) {
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s/feed", c.baseURL, id), nil)
+func (c *Client) GetDaoFeed(ctx context.Context, id uuid.UUID, params GetDaoFeedRequest) (*dao.Feed, error) {
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s/feed", c.baseURL, id.String()), nil)
 	if err != nil {
 		return nil, err
 	}

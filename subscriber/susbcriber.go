@@ -1,5 +1,9 @@
 package subscriber
 
+import (
+	"github.com/google/uuid"
+)
+
 type Subscriber struct {
-	SubscriberID string `json:"subscriber_id"`
+	SubscriberID uuid.UUID `json:"subscriber_id"`
 }

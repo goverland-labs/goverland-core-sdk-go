@@ -4,15 +4,17 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/google/uuid"
+
 	goverlandcorewebsdk "github.com/goverland-labs/core-web-sdk"
 )
 
-func unsubscribeFromDao() {
+func getDaoByID() {
 	cli := goverlandcorewebsdk.NewClient(defaultBaseURL)
-	err := cli.UnsubscribeFromDao(context.TODO(), defaultSubscriberID, "95a3b95b-6938-4eee-af82-a3a7e42878a6")
+	dao, err := cli.GetDao(context.TODO(), uuid.MustParse("266bf267-cbd8-423d-a145-3d908c47684b"))
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println("done")
+	fmt.Println(dao.ID, dao.Name, dao.Categories)
 }

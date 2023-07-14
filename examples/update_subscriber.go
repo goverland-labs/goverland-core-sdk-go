@@ -4,12 +4,14 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/google/uuid"
+
 	goverlandcorewebsdk "github.com/goverland-labs/core-web-sdk"
 )
 
 func updateSubscriber() {
 	cli := goverlandcorewebsdk.NewClient(defaultBaseURL)
-	err := cli.UpdateSubscriber(context.TODO(), "4fe6b578-b34b-402a-8b88-bb0f83041119", "http://new.callback.url")
+	err := cli.UpdateSubscriber(context.TODO(), uuid.MustParse("4fe6b578-b34b-402a-8b88-bb0f83041119"), "http://new.callback.url")
 	if err != nil {
 		panic(err)
 	}

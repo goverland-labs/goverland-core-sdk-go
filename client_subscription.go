@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/google/uuid"
+
 	"github.com/goverland-labs/core-web-sdk/subscriber"
 )
 
@@ -37,7 +39,7 @@ type UpdateSubscriberRequest struct {
 	WebhookURL string `json:"webhook_url"`
 }
 
-func (c *Client) UpdateSubscriber(ctx context.Context, subscriberID, webhookURL string) error {
+func (c *Client) UpdateSubscriber(ctx context.Context, subscriberID uuid.UUID, webhookURL string) error {
 	body, err := json.Marshal(UpdateSubscriberRequest{WebhookURL: webhookURL})
 	if err != nil {
 		return err
@@ -57,15 +59,15 @@ func (c *Client) UpdateSubscriber(ctx context.Context, subscriberID, webhookURL 
 	return nil
 }
 
-func (c *Client) prepareAuthRequest(req *http.Request, subscriberID string) {
-	req.Header.Set("Authorization", subscriberID)
+func (c *Client) prepareAuthRequest(req *http.Request, subscriberID uuid.UUID) {
+	req.Header.Set("Authorization", subscriberID.String())
 }
 
 type SubscribeOnDaoRequest struct {
-	DaoID string `json:"dao"`
+	DaoID uuid.UUID `json:"dao"`
 }
 
-func (c *Client) SubscribeOnDao(ctx context.Context, subscriberID, daoID string) error {
+func (c *Client) SubscribeOnDao(ctx context.Context, subscriberID, daoID uuid.UUID) error {
 	body, err := json.Marshal(SubscribeOnDaoRequest{DaoID: daoID})
 	if err != nil {
 		return err
@@ -86,10 +88,10 @@ func (c *Client) SubscribeOnDao(ctx context.Context, subscriberID, daoID string)
 }
 
 type UnsubscribeFromDaoRequest struct {
-	DaoID string `json:"dao"`
+	DaoID uuid.UUID `json:"dao"`
 }
 
-func (c *Client) UnsubscribeFromDao(ctx context.Context, subscriberID, daoID string) error {
+func (c *Client) UnsubscribeFromDao(ctx context.Context, subscriberID, daoID uuid.UUID) error {
 	body, err := json.Marshal(UnsubscribeFromDaoRequest{DaoID: daoID})
 	if err != nil {
 		return err
