@@ -63,6 +63,7 @@ type Dao struct {
 	ProposalsCount uint64     `json:"proposals_count"`
 	Guidelines     string     `json:"guidelines"`
 	Template       string     `json:"template"`
-	ParentID       *uuid.UUID `json:"parent_id,omitempty"`
 	ActivitySince  uint64     `json:"activity_since"`
+
+	// TODO: parentID
 }
