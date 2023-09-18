@@ -10,6 +10,7 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/goverland-labs/core-web-sdk/dao"
+	"github.com/goverland-labs/core-web-sdk/feed"
 )
 
 func (c *Client) GetDao(ctx context.Context, id uuid.UUID) (*dao.Dao, error) {
@@ -101,7 +102,7 @@ type GetDaoFeedRequest struct {
 	Limit  int
 }
 
-func (c *Client) GetDaoFeed(ctx context.Context, id uuid.UUID, params GetDaoFeedRequest) (*dao.Feed, error) {
+func (c *Client) GetDaoFeed(ctx context.Context, id uuid.UUID, params GetDaoFeedRequest) (*feed.Feed, error) {
 	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s/feed", c.baseURL, id.String()), nil)
 	if err != nil {
 		return nil, err
@@ -116,13 +117,13 @@ func (c *Client) GetDaoFeed(ctx context.Context, id uuid.UUID, params GetDaoFeed
 	}
 	req.URL.RawQuery = q.Encode()
 
-	var result []dao.FeedItem
+	var result []feed.Item
 	headers, err := c.sendRequest(ctx, req, &result)
 	if err != nil {
 		return nil, err
 	}
 
-	return &dao.Feed{
+	return &feed.Feed{
 		Items:    result,
 		Offset:   GetOffsetFromHeaders(headers),
 		Limit:    GetLimitFromHeaders(headers),
