@@ -190,19 +190,17 @@ func (c *Client) PrepareVote(ctx context.Context, proposalID string, params Prep
 }
 
 type VoteRequest struct {
-	Voter  string          `json:"voter"`
-	Choice json.RawMessage `json:"choice"`
-	Reason *string         `json:"reason,omitempty"`
-	Sig    string          `json:"sig"`
+	ID  uint64 `json:"id"`
+	Sig string `json:"sig"`
 }
 
-func (c *Client) Vote(ctx context.Context, proposalID string, params VoteRequest) (proposal.SuccessfulVote, error) {
+func (c *Client) Vote(ctx context.Context, params VoteRequest) (proposal.SuccessfulVote, error) {
 	data, err := json.Marshal(params)
 	if err != nil {
 		return proposal.SuccessfulVote{}, err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("%s/proposals/%s/votes", c.baseURL, proposalID), bytes.NewReader(data))
+	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("%s/proposals/votes", c.baseURL), bytes.NewReader(data))
 	if err != nil {
 		return proposal.SuccessfulVote{}, err
 	}
