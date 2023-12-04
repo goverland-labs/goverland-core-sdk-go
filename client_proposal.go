@@ -190,7 +190,7 @@ func (c *Client) PrepareVote(ctx context.Context, proposalID string, params Prep
 }
 
 type VoteRequest struct {
-	ID  uint64 `json:"id"`
+	ID  string `json:"id"`
 	Sig string `json:"sig"`
 }
 
