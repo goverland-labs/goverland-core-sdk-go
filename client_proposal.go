@@ -1,7 +1,9 @@
 package goverlandcorewebsdk
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -135,4 +137,79 @@ func (c *Client) GetProposalVotes(ctx context.Context, id string, params GetProp
 		Limit:    GetLimitFromHeaders(headers),
 		TotalCnt: GetTotalCntFromHeaders(headers),
 	}, nil
+}
+
+type ValidateVoteRequest struct {
+	Voter string `json:"voter"`
+}
+
+func (c *Client) ValidateVote(ctx context.Context, proposalID string, params ValidateVoteRequest) (proposal.VoteValidation, error) {
+	data, err := json.Marshal(params)
+	if err != nil {
+		return proposal.VoteValidation{}, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("%s/proposals/%s/votes/validate", c.baseURL, proposalID), bytes.NewReader(data))
+	if err != nil {
+		return proposal.VoteValidation{}, err
+	}
+
+	var result proposal.VoteValidation
+	_, err = c.sendRequest(ctx, req, &result)
+	if err != nil {
+		return proposal.VoteValidation{}, err
+	}
+
+	return result, nil
+}
+
+type PrepareVoteRequest struct {
+	Voter  string          `json:"voter"`
+	Choice json.RawMessage `json:"choice"`
+	Reason *string         `json:"reason,omitempty"`
+}
+
+func (c *Client) PrepareVote(ctx context.Context, proposalID string, params PrepareVoteRequest) (proposal.VotePreparation, error) {
+	data, err := json.Marshal(params)
+	if err != nil {
+		return proposal.VotePreparation{}, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("%s/proposals/%s/votes/prepare", c.baseURL, proposalID), bytes.NewReader(data))
+	if err != nil {
+		return proposal.VotePreparation{}, err
+	}
+
+	var result proposal.VotePreparation
+	_, err = c.sendRequest(ctx, req, &result)
+	if err != nil {
+		return proposal.VotePreparation{}, err
+	}
+
+	return result, nil
+}
+
+type VoteRequest struct {
+	ID  string `json:"id"`
+	Sig string `json:"sig"`
+}
+
+func (c *Client) Vote(ctx context.Context, params VoteRequest) (proposal.SuccessfulVote, error) {
+	data, err := json.Marshal(params)
+	if err != nil {
+		return proposal.SuccessfulVote{}, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("%s/proposals/votes", c.baseURL), bytes.NewReader(data))
+	if err != nil {
+		return proposal.SuccessfulVote{}, err
+	}
+
+	var result proposal.SuccessfulVote
+	_, err = c.sendRequest(ctx, req, &result)
+	if err != nil {
+		return proposal.SuccessfulVote{}, err
+	}
+
+	return result, nil
 }
