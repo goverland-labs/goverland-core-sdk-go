@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/goverland-labs/core-web-sdk/proposal"
 )
@@ -26,11 +27,12 @@ func (c *Client) GetProposal(ctx context.Context, id string) (*proposal.Proposal
 }
 
 type GetProposalListRequest struct {
-	Offset   int
-	Limit    int
-	Dao      string
-	Category string
-	Title    string
+	Offset      int
+	Limit       int
+	Dao         string
+	Category    string
+	Title       string
+	ProposalIDs []string
 }
 
 func (c *Client) GetProposalList(ctx context.Context, params GetProposalListRequest) (*proposal.List, error) {
@@ -54,6 +56,9 @@ func (c *Client) GetProposalList(ctx context.Context, params GetProposalListRequ
 	}
 	if params.Title != "" {
 		q.Add("title", params.Title)
+	}
+	if len(params.ProposalIDs) != 0 {
+		q.Add("proposals", strings.Join(params.ProposalIDs, ","))
 	}
 	req.URL.RawQuery = q.Encode()
 
