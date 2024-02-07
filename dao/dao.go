@@ -65,6 +65,8 @@ type Dao struct {
 	Template       string     `json:"template"`
 	ActivitySince  uint64     `json:"activity_since"`
 	VotersCount    uint64     `json:"voters_count"`
+	ActiveVotes    uint64     `json:"active_votes"`
+	Verified       bool       `json:"verified"`
 
 	// TODO: parentID
 }
