@@ -9,7 +9,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/goverland-labs/core-web-sdk/subscriber"
+	"github.com/goverland-labs/goverland-core-sdk-go/subscriber"
 )
 
 type CreateSubscriberRequest struct {

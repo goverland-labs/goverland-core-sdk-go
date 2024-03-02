@@ -9,8 +9,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/goverland-labs/core-web-sdk/dao"
-	"github.com/goverland-labs/core-web-sdk/feed"
+	"github.com/goverland-labs/goverland-core-sdk-go/dao"
+	"github.com/goverland-labs/goverland-core-sdk-go/feed"
 )
 
 func (c *Client) GetDao(ctx context.Context, id uuid.UUID) (*dao.Dao, error) {

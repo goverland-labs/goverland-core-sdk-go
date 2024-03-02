@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/goverland-labs/core-web-sdk/proposal"
+	"github.com/goverland-labs/goverland-core-sdk-go/proposal"
 )
 
 func (c *Client) GetProposal(ctx context.Context, id string) (*proposal.Proposal, error) {
