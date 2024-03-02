@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/goverland-labs/core-web-sdk/feed"
+	"github.com/goverland-labs/goverland-core-sdk-go/feed"
 )
 
 type FeedByFiltersRequest struct {

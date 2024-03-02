@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	goverlandcorewebsdk "github.com/goverland-labs/core-web-sdk"
+	goverlandcorewebsdk "github.com/goverland-labs/goverland-core-sdk-go"
 )
 
 func getFeedByFilter() {

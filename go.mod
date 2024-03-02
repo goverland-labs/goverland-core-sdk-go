@@ -1,6 +1,6 @@
-module github.com/goverland-labs/core-web-sdk
+module github.com/goverland-labs/goverland-core-sdk-go
 
-go 1.20
+go 1.21
 
 require (
 	github.com/google/uuid v1.3.0
