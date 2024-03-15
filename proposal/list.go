@@ -10,6 +10,7 @@ type List struct {
 type VoteList struct {
 	Items    []Vote
 	TotalCnt int
+	TotalVp  float32
 	Offset   int
 	Limit    int
 }
