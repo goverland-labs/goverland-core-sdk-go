@@ -45,5 +45,6 @@ func (c *Client) GetUserVotes(ctx context.Context, address string, params GetUse
 		Offset:   GetOffsetFromHeaders(headers),
 		Limit:    GetLimitFromHeaders(headers),
 		TotalCnt: GetTotalCntFromHeaders(headers),
+		TotalVp:  GetTotalVpFromHeaders(headers),
 	}, nil
 }

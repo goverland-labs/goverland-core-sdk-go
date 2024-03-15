@@ -146,6 +146,7 @@ func (c *Client) GetProposalVotes(ctx context.Context, id string, params GetProp
 		Offset:   GetOffsetFromHeaders(headers),
 		Limit:    GetLimitFromHeaders(headers),
 		TotalCnt: GetTotalCntFromHeaders(headers),
+		TotalVp:  GetTotalVpFromHeaders(headers),
 	}, nil
 }
 
