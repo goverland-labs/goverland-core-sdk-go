@@ -3,10 +3,12 @@ package goverlandcorewebsdk
 import (
 	"context"
 	"fmt"
+	"github.com/google/uuid"
 	"net/http"
 	"strconv"
 	"strings"
 
+	"github.com/goverland-labs/goverland-core-sdk-go/dao"
 	"github.com/goverland-labs/goverland-core-sdk-go/proposal"
 )
 
@@ -46,5 +48,23 @@ func (c *Client) GetUserVotes(ctx context.Context, address string, params GetUse
 		Limit:    GetLimitFromHeaders(headers),
 		TotalCnt: GetTotalCntFromHeaders(headers),
 		TotalVp:  GetTotalVpFromHeaders(headers),
+	}, nil
+}
+
+func (c *Client) GetUserParticipatedDaos(ctx context.Context, voter string) (*dao.DaoIds, error) {
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/user/%s/participated-daos", c.baseURL, voter), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	var result []uuid.UUID
+	headers, err := c.sendRequest(ctx, req, &result)
+	if err != nil {
+		return nil, err
+	}
+
+	return &dao.DaoIds{
+		Ids:      result,
+		TotalCnt: GetTotalCntFromHeaders(headers),
 	}, nil
 }
