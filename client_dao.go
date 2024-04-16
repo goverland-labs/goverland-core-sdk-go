@@ -130,3 +130,17 @@ func (c *Client) GetDaoFeed(ctx context.Context, id uuid.UUID, params GetDaoFeed
 		TotalCnt: GetTotalCntFromHeaders(headers),
 	}, nil
 }
+
+func (c *Client) GetDaoRecommendations(ctx context.Context) (dao.Recommendations, error) {
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/recommendations", c.baseURL), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	var result dao.Recommendations
+	if _, err = c.sendRequest(ctx, req, &result); err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
