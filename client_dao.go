@@ -144,3 +144,39 @@ func (c *Client) GetDaoRecommendations(ctx context.Context) (dao.Recommendations
 
 	return result, nil
 }
+
+type GetDelegatesRequest struct {
+	Query  string
+	By     string
+	Offset int
+	Limit  int
+}
+
+func (c *Client) GetDelegates(ctx context.Context, id uuid.UUID, params GetDelegatesRequest) (dao.Delegates, error) {
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s/delegates", c.baseURL, id.String()), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	q := req.URL.Query()
+	if params.Offset != 0 {
+		q.Add("offset", strconv.Itoa(params.Offset))
+	}
+	if params.Limit != 0 {
+		q.Add("limit", strconv.Itoa(params.Limit))
+	}
+	if params.Query != "" {
+		q.Add("query", params.Query)
+	}
+	if params.By != "" {
+		q.Add("by", params.By)
+	}
+	req.URL.RawQuery = q.Encode()
+
+	var result dao.Delegates
+	if _, err = c.sendRequest(ctx, req, &result); err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
