@@ -78,6 +78,7 @@ func (c *Client) GetProposalList(ctx context.Context, params GetProposalListRequ
 
 type GetProposalVotesRequest struct {
 	OrderByVoter string
+	Name         string
 	Offset       int
 	Limit        int
 }
@@ -132,6 +133,10 @@ func (c *Client) GetProposalVotes(ctx context.Context, id string, params GetProp
 
 	if params.OrderByVoter != "" {
 		q.Add("voter", params.OrderByVoter)
+	}
+
+	if params.Name != "" {
+		q.Add("name", params.Name)
 	}
 	req.URL.RawQuery = q.Encode()
 
