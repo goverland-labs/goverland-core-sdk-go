@@ -180,3 +180,19 @@ func (c *Client) GetDelegates(ctx context.Context, id uuid.UUID, params GetDeleg
 
 	return result, nil
 }
+
+func (c *Client) GetDelegateProfile(ctx context.Context, id uuid.UUID, address string) (dao.DelegateProfile, error) {
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s/delegate-profile", c.baseURL, id.String()), nil)
+	if err != nil {
+		return dao.DelegateProfile{}, err
+	}
+
+	q := req.URL.Query()
+	q.Add("address", address)
+	req.URL.RawQuery = q.Encode()
+
+	var result dao.DelegateProfile
+	_, err = c.sendRequest(ctx, req, &result)
+
+	return result, err
+}
