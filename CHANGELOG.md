@@ -7,6 +7,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+- GetByID can search by internal and original DAO identifier
+
 ## [0.1.8] - 2024-08-12
 
 ### Changed
