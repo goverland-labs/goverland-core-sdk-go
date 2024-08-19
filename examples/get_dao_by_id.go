@@ -4,14 +4,12 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/google/uuid"
-
 	goverlandcorewebsdk "github.com/goverland-labs/goverland-core-sdk-go"
 )
 
 func getDaoByID() {
 	cli := goverlandcorewebsdk.NewClient(defaultBaseURL)
-	dao, err := cli.GetDao(context.TODO(), uuid.MustParse("266bf267-cbd8-423d-a145-3d908c47684b"))
+	dao, err := cli.GetDao(context.TODO(), "266bf267-cbd8-423d-a145-3d908c47684b")
 	if err != nil {
 		panic(err)
 	}
