@@ -13,8 +13,8 @@ import (
 	"github.com/goverland-labs/goverland-core-sdk-go/feed"
 )
 
-func (c *Client) GetDao(ctx context.Context, id uuid.UUID) (*dao.Dao, error) {
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s", c.baseURL, id.String()), nil)
+func (c *Client) GetDao(ctx context.Context, id string) (*dao.Dao, error) {
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s", c.baseURL, id), nil)
 	if err != nil {
 		return nil, err
 	}
