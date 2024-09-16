@@ -155,6 +155,20 @@ func (c *Client) GetProposalVotes(ctx context.Context, id string, params GetProp
 	}, nil
 }
 
+func (c *Client) GetProposalVpList(ctx context.Context, id string) ([]float32, error) {
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/proposals/%s/vps", c.baseURL, id), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	var result []float32
+	if _, err = c.sendRequest(ctx, req, &result); err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
 type ValidateVoteRequest struct {
 	Voter string `json:"voter"`
 }
