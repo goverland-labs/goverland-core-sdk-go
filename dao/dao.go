@@ -96,7 +96,10 @@ type Delegate struct {
 	CreatedProposalsCount int32   `json:"created_proposals_count"`
 }
 
-type Delegates []Delegate
+type DelegatesResponse struct {
+	Delegates []Delegate `json:"delegates"`
+	Total     int32      `json:"total"`
+}
 
 type DelegateProfile struct {
 	Address              string                `json:"address"`
