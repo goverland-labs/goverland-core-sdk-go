@@ -152,10 +152,10 @@ type GetDelegatesRequest struct {
 	Limit  int
 }
 
-func (c *Client) GetDelegates(ctx context.Context, id uuid.UUID, params GetDelegatesRequest) (dao.Delegates, error) {
+func (c *Client) GetDelegates(ctx context.Context, id uuid.UUID, params GetDelegatesRequest) (dao.DelegatesResponse, error) {
 	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s/delegates", c.baseURL, id.String()), nil)
 	if err != nil {
-		return nil, err
+		return dao.DelegatesResponse{}, err
 	}
 
 	q := req.URL.Query()
@@ -173,9 +173,9 @@ func (c *Client) GetDelegates(ctx context.Context, id uuid.UUID, params GetDeleg
 	}
 	req.URL.RawQuery = q.Encode()
 
-	var result dao.Delegates
+	var result dao.DelegatesResponse
 	if _, err = c.sendRequest(ctx, req, &result); err != nil {
-		return nil, err
+		return dao.DelegatesResponse{}, err
 	}
 
 	return result, nil
