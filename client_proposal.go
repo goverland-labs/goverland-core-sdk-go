@@ -33,6 +33,7 @@ type GetProposalListRequest struct {
 	Category    string
 	Title       string
 	ProposalIDs []string
+	OnlyActive  bool
 }
 
 func (c *Client) GetProposalList(ctx context.Context, params GetProposalListRequest) (*proposal.List, error) {
@@ -59,6 +60,9 @@ func (c *Client) GetProposalList(ctx context.Context, params GetProposalListRequ
 	}
 	if len(params.ProposalIDs) != 0 {
 		q.Add("proposals", strings.Join(params.ProposalIDs, ","))
+	}
+	if params.OnlyActive {
+		q.Add("only_active", "true")
 	}
 	req.URL.RawQuery = q.Encode()
 
