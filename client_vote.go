@@ -3,16 +3,18 @@ package goverlandcorewebsdk
 import (
 	"context"
 	"fmt"
-	"github.com/google/uuid"
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/google/uuid"
 
 	"github.com/goverland-labs/goverland-core-sdk-go/dao"
 	"github.com/goverland-labs/goverland-core-sdk-go/proposal"
 )
 
 type GetUserVotesRequest struct {
+	DaoID       *string
 	ProposalIDs []string
 	Offset      int
 	Limit       int
@@ -33,6 +35,9 @@ func (c *Client) GetUserVotes(ctx context.Context, address string, params GetUse
 	}
 	if len(params.ProposalIDs) != 0 {
 		q.Add("proposals", strings.Join(params.ProposalIDs, ","))
+	}
+	if params.DaoID != nil {
+		q.Add("dao_id", *params.DaoID)
 	}
 	req.URL.RawQuery = q.Encode()
 
