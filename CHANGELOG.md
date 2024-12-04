@@ -7,6 +7,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- All delegations list by address
+- All delegators list by address
+- Delegation summary by address
+
 ## [0.1.14] - 2024-10-08
 
 ### Added
