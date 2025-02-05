@@ -69,6 +69,7 @@ type Dao struct {
 	ActiveProposalsIDs []string   `json:"active_proposals_ids"`
 	Verified           bool       `json:"verified"`
 	PopularityIndex    float64    `json:"popularity_index"`
+	TokenExist         bool       `json:"token_exist"`
 
 	// TODO: parentID
 }
@@ -118,4 +119,25 @@ type ProfileDelegateItem struct {
 	ENSName        string  `json:"ens_name"`
 	Weight         float64 `json:"weight"`
 	DelegatedPower float64 `json:"delegated_power"`
+}
+
+type TokenInfo struct {
+	Name                  string  `json:"name"`
+	Symbol                string  `json:"symbol"`
+	TotalSupply           float64 `json:"total_supply"`
+	CirculatingSupply     float64 `json:"circulating_supply"`
+	MarketCap             float64 `json:"market_cap"`
+	FullyDilutedValuation float64 `json:"fully_diluted_valuation"`
+	Price                 float64 `json:"price"`
+}
+
+type TokenChart struct {
+	Price        float64 `json:"price"`
+	PriceChanges float64 `json:"price_changes"`
+	Points       []Point `json:"points"`
+}
+
+type Point struct {
+	Time  time.Time `json:"time"`
+	Price float64   `json:"price"`
 }

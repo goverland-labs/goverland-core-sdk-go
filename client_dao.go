@@ -196,3 +196,31 @@ func (c *Client) GetDelegateProfile(ctx context.Context, id uuid.UUID, address s
 
 	return result, err
 }
+
+func (c *Client) GetDaoTokenInfo(ctx context.Context, id uuid.UUID) (dao.TokenInfo, error) {
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s/token-info", c.baseURL, id.String()), nil)
+	if err != nil {
+		return dao.TokenInfo{}, err
+	}
+
+	var result dao.TokenInfo
+	_, err = c.sendRequest(ctx, req, &result)
+
+	return result, err
+}
+
+func (c *Client) GetDaoTokenChart(ctx context.Context, id uuid.UUID, period string) (dao.TokenChart, error) {
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s/token-chart", c.baseURL, id.String()), nil)
+	if err != nil {
+		return dao.TokenChart{}, err
+	}
+
+	q := req.URL.Query()
+	q.Add("period", period)
+	req.URL.RawQuery = q.Encode()
+
+	var result dao.TokenChart
+	_, err = c.sendRequest(ctx, req, &result)
+
+	return result, err
+}
