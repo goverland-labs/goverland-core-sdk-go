@@ -7,6 +7,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.3] - 2025-03-25
+
+### Added
+- Dao token symbol
+
 ## [0.2.2] - 2025-02-05
 
 ### Added
