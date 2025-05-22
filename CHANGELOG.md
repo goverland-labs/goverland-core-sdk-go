@@ -7,6 +7,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- Extended token info
+
 ## [0.2.3] - 2025-03-25
 
 ### Added
