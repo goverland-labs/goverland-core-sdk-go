@@ -71,6 +71,7 @@ type Dao struct {
 	PopularityIndex    float64    `json:"popularity_index"`
 	TokenExist         bool       `json:"token_exist"`
 	TokenSymbol        string     `json:"token_symbol"`
+	FungibleID         string     `json:"fungible_id"`
 
 	// TODO: parentID
 }
