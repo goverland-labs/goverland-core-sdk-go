@@ -28,11 +28,12 @@ func (c *Client) GetDao(ctx context.Context, id string) (*dao.Dao, error) {
 }
 
 type GetDaoListRequest struct {
-	Offset   int
-	Limit    int
-	Query    string
-	Category string
-	DaoIDS   []string
+	Offset      int
+	Limit       int
+	Query       string
+	Category    string
+	DaoIDS      []string
+	FungibleIDs []string
 }
 
 func (c *Client) GetDaoList(ctx context.Context, params GetDaoListRequest) (*dao.List, error) {
@@ -56,6 +57,9 @@ func (c *Client) GetDaoList(ctx context.Context, params GetDaoListRequest) (*dao
 	}
 	if len(params.DaoIDS) != 0 {
 		q.Add("daos", strings.Join(params.DaoIDS, ","))
+	}
+	if len(params.FungibleIDs) != 0 {
+		q.Add("fungible_ids", strings.Join(params.FungibleIDs, ","))
 	}
 	req.URL.RawQuery = q.Encode()
 
