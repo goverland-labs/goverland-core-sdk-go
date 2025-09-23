@@ -150,10 +150,12 @@ func (c *Client) GetDaoRecommendations(ctx context.Context) (dao.Recommendations
 }
 
 type GetDelegatesRequest struct {
-	Query  string
-	By     string
-	Offset int
-	Limit  int
+	Query          string
+	By             string
+	DelegationType string
+	ChainID        string
+	Offset         int
+	Limit          int
 }
 
 func (c *Client) GetDelegates(ctx context.Context, id uuid.UUID, params GetDelegatesRequest) (dao.DelegatesResponse, error) {
@@ -174,6 +176,12 @@ func (c *Client) GetDelegates(ctx context.Context, id uuid.UUID, params GetDeleg
 	}
 	if params.By != "" {
 		q.Add("by", params.By)
+	}
+	if params.DelegationType != "" {
+		q.Add("delegation_type", params.DelegationType)
+	}
+	if params.ChainID != "" {
+		q.Add("chain_id", params.ChainID)
 	}
 	req.URL.RawQuery = q.Encode()
 
