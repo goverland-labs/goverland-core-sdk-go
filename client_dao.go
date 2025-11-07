@@ -193,14 +193,26 @@ func (c *Client) GetDelegates(ctx context.Context, id uuid.UUID, params GetDeleg
 	return result, nil
 }
 
-func (c *Client) GetDelegateProfile(ctx context.Context, id uuid.UUID, address string) (dao.DelegateProfile, error) {
+type GetDelegateProfileRequest struct {
+	Address        string
+	DelegationType string
+	ChainID        string
+}
+
+func (c *Client) GetDelegateProfile(ctx context.Context, id uuid.UUID, params GetDelegateProfileRequest) (dao.DelegateProfile, error) {
 	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s/delegate-profile", c.baseURL, id.String()), nil)
 	if err != nil {
 		return dao.DelegateProfile{}, err
 	}
 
 	q := req.URL.Query()
-	q.Add("address", address)
+	q.Add("address", params.Address)
+	if params.DelegationType != "" {
+		q.Add("delegation_type", params.DelegationType)
+	}
+	if params.ChainID != "" {
+		q.Add("chain_id", params.ChainID)
+	}
 	req.URL.RawQuery = q.Encode()
 
 	var result dao.DelegateProfile
