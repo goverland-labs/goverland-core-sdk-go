@@ -248,3 +248,42 @@ func (c *Client) GetDaoTokenChart(ctx context.Context, id uuid.UUID, period stri
 
 	return result, err
 }
+
+type GetDelegatorsRequest struct {
+	Address string
+	ChainID string
+	Offset  int
+	Limit   int
+}
+
+func (c *Client) GetDelegators(ctx context.Context, id uuid.UUID, params GetDelegatorsRequest) (*dao.Delegators, error) {
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s/delegates/%s/delegators", c.baseURL, id.String(), params.Address), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	q := req.URL.Query()
+	if params.Offset != 0 {
+		q.Add("offset", strconv.Itoa(params.Offset))
+	}
+	if params.Limit != 0 {
+		q.Add("limit", strconv.Itoa(params.Limit))
+	}
+	if params.ChainID != "" {
+		q.Add("chain_id", params.ChainID)
+	}
+	req.URL.RawQuery = q.Encode()
+
+	var result []dao.Delegator
+	headers, err := c.sendRequest(ctx, req, &result)
+	if err != nil {
+		return nil, err
+	}
+
+	return &dao.Delegators{
+		Items:    result,
+		Offset:   GetOffsetFromHeaders(headers),
+		Limit:    GetLimitFromHeaders(headers),
+		TotalCnt: GetTotalCntFromHeaders(headers),
+	}, nil
+}
