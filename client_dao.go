@@ -250,10 +250,11 @@ func (c *Client) GetDaoTokenChart(ctx context.Context, id uuid.UUID, period stri
 }
 
 type GetDelegatorsRequest struct {
-	Address string
-	ChainID string
-	Offset  int
-	Limit   int
+	Address        string
+	DelegationType string
+	ChainID        string
+	Offset         int
+	Limit          int
 }
 
 func (c *Client) GetDelegators(ctx context.Context, id uuid.UUID, params GetDelegatorsRequest) (*dao.Delegators, error) {
@@ -272,6 +273,10 @@ func (c *Client) GetDelegators(ctx context.Context, id uuid.UUID, params GetDele
 	if params.ChainID != "" {
 		q.Add("chain_id", params.ChainID)
 	}
+	if params.DelegationType != "" {
+		q.Add("delegation_type", params.DelegationType)
+	}
+
 	req.URL.RawQuery = q.Encode()
 
 	var result []dao.Delegator
