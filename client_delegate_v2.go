@@ -67,6 +67,23 @@ func (c *Client) GetUserDelegatesTopV2(
 	return result, nil
 }
 
+func (c *Client) GetUserTopDelegatorsByDaoV2(
+	ctx context.Context,
+	address, daoID string,
+) (delegate.GetUserDelegatorsTopV2Response, error) {
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s/delegates/%s/delegators", c.baseURL, daoID, address), nil)
+	if err != nil {
+		return delegate.GetUserDelegatorsTopV2Response{}, err
+	}
+
+	var result delegate.GetUserDelegatorsTopV2Response
+	if _, err = c.sendRequest(ctx, req, &result); err != nil {
+		return delegate.GetUserDelegatorsTopV2Response{}, err
+	}
+
+	return result, nil
+}
+
 func (c *Client) GetUserDelegatesListV2(
 	ctx context.Context,
 	id uuid.UUID,
