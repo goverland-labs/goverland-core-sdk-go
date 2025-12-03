@@ -90,10 +90,10 @@ func (c *Client) GetUserDelegatesListV2(
 	id uuid.UUID,
 	address string,
 	params delegate.GetUserDelegatesListV2Request,
-) (delegate.GetUserDelegatesListV2Request, error) {
+) (delegate.GetDelegatesV2Response, error) {
 	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/user/%s/delegates/%s/list", c.baseURL, address, id.String()), nil)
 	if err != nil {
-		return delegate.GetUserDelegatesListV2Request{}, err
+		return delegate.GetDelegatesV2Response{}, err
 	}
 
 	q := req.URL.Query()
@@ -111,9 +111,9 @@ func (c *Client) GetUserDelegatesListV2(
 	}
 	req.URL.RawQuery = q.Encode()
 
-	var result delegate.GetUserDelegatesListV2Request
+	var result delegate.GetDelegatesV2Response
 	if _, err = c.sendRequest(ctx, req, &result); err != nil {
-		return delegate.GetUserDelegatesListV2Request{}, err
+		return delegate.GetDelegatesV2Response{}, err
 	}
 
 	return result, nil
