@@ -54,7 +54,7 @@ func (c *Client) GetUserDelegatesTopV2(
 	ctx context.Context,
 	address string,
 ) (delegate.GetUserDelegatesTopV2Response, error) {
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/users/%s/delegates/top", c.baseURL, address), nil)
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/user/%s/delegates/top", c.baseURL, address), nil)
 	if err != nil {
 		return delegate.GetUserDelegatesTopV2Response{}, err
 	}
@@ -160,7 +160,7 @@ func (c *Client) GetUserDelegatorsTopV2(
 	ctx context.Context,
 	address string,
 ) (delegate.GetUserDelegatorsTopV2Response, error) {
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/users/%s/delegators/top", c.baseURL, address), nil)
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/user/%s/delegators/top", c.baseURL, address), nil)
 	if err != nil {
 		return delegate.GetUserDelegatorsTopV2Response{}, err
 	}
