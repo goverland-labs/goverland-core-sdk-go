@@ -72,7 +72,7 @@ func (c *Client) GetUserTopDelegatorsByDaoV2(
 	address string,
 	daoID uuid.UUID,
 ) (delegate.GetUserDelegatorsTopV2Response, error) {
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s/delegates/%s/delegators", c.baseURL, daoID.String(), address), nil)
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s/delegates/%s/delegators/top", c.baseURL, daoID.String(), address), nil)
 	if err != nil {
 		return delegate.GetUserDelegatorsTopV2Response{}, err
 	}
