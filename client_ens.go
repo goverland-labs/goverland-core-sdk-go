@@ -34,3 +34,30 @@ func (c *Client) GetEnsNames(ctx context.Context, params GetEnsNamesRequest) (*e
 		EnsNames: result,
 	}, nil
 }
+
+type GetAddressesByEnsNamesRequest struct {
+	Names []string
+}
+
+func (c *Client) GetAddressesByEnsNames(ctx context.Context, params GetAddressesByEnsNamesRequest) (*ens.EnsNameList, error) {
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/ens-address", c.baseURL), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	q := req.URL.Query()
+	if len(params.Names) != 0 {
+		q.Add("names", strings.Join(params.Names, ","))
+	}
+	req.URL.RawQuery = q.Encode()
+
+	var result []ens.EnsName
+	_, err = c.sendRequest(ctx, req, &result)
+	if err != nil {
+		return nil, err
+	}
+
+	return &ens.EnsNameList{
+		EnsNames: result,
+	}, nil
+}
