@@ -150,10 +150,12 @@ func (c *Client) GetDaoRecommendations(ctx context.Context) (dao.Recommendations
 }
 
 type GetDelegatesRequest struct {
-	Query  string
-	By     string
-	Offset int
-	Limit  int
+	Query          string
+	By             string
+	DelegationType string
+	ChainID        string
+	Offset         int
+	Limit          int
 }
 
 func (c *Client) GetDelegates(ctx context.Context, id uuid.UUID, params GetDelegatesRequest) (dao.DelegatesResponse, error) {
@@ -175,6 +177,12 @@ func (c *Client) GetDelegates(ctx context.Context, id uuid.UUID, params GetDeleg
 	if params.By != "" {
 		q.Add("by", params.By)
 	}
+	if params.DelegationType != "" {
+		q.Add("delegation_type", params.DelegationType)
+	}
+	if params.ChainID != "" {
+		q.Add("chain_id", params.ChainID)
+	}
 	req.URL.RawQuery = q.Encode()
 
 	var result dao.DelegatesResponse
@@ -185,14 +193,26 @@ func (c *Client) GetDelegates(ctx context.Context, id uuid.UUID, params GetDeleg
 	return result, nil
 }
 
-func (c *Client) GetDelegateProfile(ctx context.Context, id uuid.UUID, address string) (dao.DelegateProfile, error) {
+type GetDelegateProfileRequest struct {
+	Address        string
+	DelegationType string
+	ChainID        string
+}
+
+func (c *Client) GetDelegateProfile(ctx context.Context, id uuid.UUID, params GetDelegateProfileRequest) (dao.DelegateProfile, error) {
 	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s/delegate-profile", c.baseURL, id.String()), nil)
 	if err != nil {
 		return dao.DelegateProfile{}, err
 	}
 
 	q := req.URL.Query()
-	q.Add("address", address)
+	q.Add("address", params.Address)
+	if params.DelegationType != "" {
+		q.Add("delegation_type", params.DelegationType)
+	}
+	if params.ChainID != "" {
+		q.Add("chain_id", params.ChainID)
+	}
 	req.URL.RawQuery = q.Encode()
 
 	var result dao.DelegateProfile
@@ -227,4 +247,48 @@ func (c *Client) GetDaoTokenChart(ctx context.Context, id uuid.UUID, period stri
 	_, err = c.sendRequest(ctx, req, &result)
 
 	return result, err
+}
+
+type GetDelegatorsRequest struct {
+	Address        string
+	DelegationType string
+	ChainID        string
+	Offset         int
+	Limit          int
+}
+
+func (c *Client) GetDelegators(ctx context.Context, id uuid.UUID, params GetDelegatorsRequest) (*dao.Delegators, error) {
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos/%s/delegates/%s/delegators", c.baseURL, id.String(), params.Address), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	q := req.URL.Query()
+	if params.Offset != 0 {
+		q.Add("offset", strconv.Itoa(params.Offset))
+	}
+	if params.Limit != 0 {
+		q.Add("limit", strconv.Itoa(params.Limit))
+	}
+	if params.ChainID != "" {
+		q.Add("chain_id", params.ChainID)
+	}
+	if params.DelegationType != "" {
+		q.Add("delegation_type", params.DelegationType)
+	}
+
+	req.URL.RawQuery = q.Encode()
+
+	var result []dao.Delegator
+	headers, err := c.sendRequest(ctx, req, &result)
+	if err != nil {
+		return nil, err
+	}
+
+	return &dao.Delegators{
+		Items:    result,
+		Offset:   GetOffsetFromHeaders(headers),
+		Limit:    GetLimitFromHeaders(headers),
+		TotalCnt: GetTotalCntFromHeaders(headers),
+	}, nil
 }

@@ -98,6 +98,8 @@ type Delegate struct {
 	Statement             string  `json:"statement"`
 	VotesCount            int32   `json:"votes_count"`
 	CreatedProposalsCount int32   `json:"created_proposals_count"`
+	DelegationType        string  `json:"delegation_type"`
+	ChainID               *string `json:"chain_id"`
 }
 
 type DelegatesResponse struct {
@@ -152,4 +154,17 @@ type TokenChart struct {
 type Point struct {
 	Time  time.Time `json:"time"`
 	Price float64   `json:"price"`
+}
+
+type Delegators struct {
+	Items    []Delegator `json:"items"`
+	TotalCnt int         `json:"total_cnt"`
+	Offset   int         `json:"offset"`
+	Limit    int         `json:"limit"`
+}
+
+type Delegator struct {
+	Address    string `json:"address"`
+	ENSName    string `json:"ens_name"`
+	TokenValue string `json:"token_value"`
 }
