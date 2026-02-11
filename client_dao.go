@@ -31,9 +31,9 @@ func (c *Client) GetDao(ctx context.Context, id string) (*dao.Dao, error) {
 type GetDaoListRequest struct {
 	Offset      int      `json:"offset"`
 	Limit       int      `json:"limit"`
-	Query       string   `url:"query"`
-	Category    string   `url:"category"`
-	DaoIDS      []string `url:"daos"`
+	Query       string   `json:"query"`
+	Category    string   `json:"category"`
+	DaoIDS      []string `json:"daos"`
 	FungibleIDs []string `json:"fungible_ids"`
 }
 
