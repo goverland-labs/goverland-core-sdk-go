@@ -1,11 +1,12 @@
 package goverlandcorewebsdk
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
-	"strings"
 
 	"github.com/google/uuid"
 
@@ -28,40 +29,24 @@ func (c *Client) GetDao(ctx context.Context, id string) (*dao.Dao, error) {
 }
 
 type GetDaoListRequest struct {
-	Offset      int
-	Limit       int
-	Query       string
-	Category    string
-	DaoIDS      []string
-	FungibleIDs []string
+	Offset      int      `json:"offset"`
+	Limit       int      `json:"limit"`
+	Query       string   `json:"query"`
+	Category    string   `json:"category"`
+	DaoIDS      []string `json:"daos"`
+	FungibleIDs []string `json:"fungible_ids"`
 }
 
 func (c *Client) GetDaoList(ctx context.Context, params GetDaoListRequest) (*dao.List, error) {
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/daos", c.baseURL), nil)
+	body, err := json.Marshal(params)
 	if err != nil {
 		return nil, err
 	}
 
-	q := req.URL.Query()
-	if params.Offset != 0 {
-		q.Add("offset", strconv.Itoa(params.Offset))
+	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("%s/daos", c.baseURL), bytes.NewReader(body))
+	if err != nil {
+		return nil, err
 	}
-	if params.Limit != 0 {
-		q.Add("limit", strconv.Itoa(params.Limit))
-	}
-	if params.Query != "" {
-		q.Add("query", params.Query)
-	}
-	if params.Category != "" {
-		q.Add("category", params.Category)
-	}
-	if len(params.DaoIDS) != 0 {
-		q.Add("daos", strings.Join(params.DaoIDS, ","))
-	}
-	if len(params.FungibleIDs) != 0 {
-		q.Add("fungible_ids", strings.Join(params.FungibleIDs, ","))
-	}
-	req.URL.RawQuery = q.Encode()
 
 	var result []dao.Dao
 	headers, err := c.sendRequest(ctx, req, &result)

@@ -7,6 +7,13 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-02-13
+
+### Added
+- Allow getting dao list by POST
+
+## [0.3.1] - 2026-02-04
+
 ### Added
 - Added GetAddressesByEnsNames method for resolving ENS names to addresses
 
