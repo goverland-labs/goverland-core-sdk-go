@@ -7,6 +7,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- Add OrderBy parameter to GetProposalListRequest for server-side proposal sorting
+
 ## [0.3.2] - 2026-02-13
 
 ### Added
