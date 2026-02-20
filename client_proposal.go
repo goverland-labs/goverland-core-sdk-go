@@ -34,6 +34,7 @@ type GetProposalListRequest struct {
 	Title       string
 	ProposalIDs []string
 	OnlyActive  bool
+	OrderBy     string
 }
 
 func (c *Client) GetProposalList(ctx context.Context, params GetProposalListRequest) (*proposal.List, error) {
@@ -63,6 +64,9 @@ func (c *Client) GetProposalList(ctx context.Context, params GetProposalListRequ
 	}
 	if params.OnlyActive {
 		q.Add("only_active", "true")
+	}
+	if params.OrderBy != "" {
+		q.Add("order_by", params.OrderBy)
 	}
 	req.URL.RawQuery = q.Encode()
 
